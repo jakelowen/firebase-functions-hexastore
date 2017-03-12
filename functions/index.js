@@ -21,12 +21,10 @@ function generateGraphPoints(entityId, item, value) {
 
 exports.indexGraph = functions.database.ref('/entities/{entityId}/')
     .onWrite(event => {
-      var data = event.data;
-      var deletes = {}
-      var updates = {}
-	  if (!data.changed('graph')) {
-	    return;
-	  } else {
+
+		var deletes = {}
+		var updates = {}
+
 	  	// get data
 	  	const data = event.data.val();
 	  	console.log("CURRENT DATA", data)
@@ -40,14 +38,14 @@ exports.indexGraph = functions.database.ref('/entities/{entityId}/')
 		    });
 	  	}
 	  	// Iterate over new data to populate updates
+	  	var updateTime = new Date().getTime()
 	  	_.map(data.graph, (item) => {
-	      	var permutations = generateGraphPoints(event.params.entityId, item, true)
+	      	var permutations = generateGraphPoints(event.params.entityId, item, updateTime)
+	      	console.log("permutations", permutations)
 	      	Object.assign(updates, permutations)
 	    });
 	    // MERGE DELETES AND UPDATES TOGETHER MAKING SURE UPDATES OVERWRITES DELETS
 	    var mergedUpdates = Object.assign({},deletes,updates)
 	    console.log("MERGED UPDATES", mergedUpdates)
 	    return admin.database().ref().update(mergedUpdates)
-	  }
-
     });
