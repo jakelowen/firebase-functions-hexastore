@@ -33,17 +33,23 @@ exports.indexGraph = functions.database.ref('/entities/{entityId}/')
 	  		console.log("PREVIOUS DATA", previousData)
 	  		// iterate over previous data to populate deletes
 	  		_.map(previousData.graph, (item) => {
-		      	var permutations = generateGraphPoints(event.params.entityId, item, null)
-		      	Object.assign(deletes, permutations)
+	  			if (item){
+	  				var permutations = generateGraphPoints(event.params.entityId, item, null)
+		      		Object.assign(deletes, permutations)
+	  			}
 		    });
 	  	}
 	  	// Iterate over new data to populate updates
-	  	var updateTime = new Date().getTime()
-	  	_.map(data.graph, (item) => {
-	      	var permutations = generateGraphPoints(event.params.entityId, item, updateTime)
-	      	console.log("permutations", permutations)
-	      	Object.assign(updates, permutations)
-	    });
+	  	if (data) {
+	  		var updateTime = new Date().getTime()
+		  	_.map(data.graph, (item) => {
+		  		if (item){
+		  			var permutations = generateGraphPoints(event.params.entityId, item, updateTime)
+		      		console.log("permutations", permutations)
+		      		Object.assign(updates, permutations)
+		  		}	
+		    });
+	  	}
 	    // MERGE DELETES AND UPDATES TOGETHER MAKING SURE UPDATES OVERWRITES DELETS
 	    var mergedUpdates = Object.assign({},deletes,updates)
 	    console.log("MERGED UPDATES", mergedUpdates)

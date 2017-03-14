@@ -1,0 +1,23 @@
+{
+  "name": "firebase-functions-hexastore",
+  "version": "1.0.0",
+  "description": "Experimental Firebase Cloud Function to maintain a hexastore Graph model",
+  "main": "weaveQuery.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jakelowen/firebase-functions-hexastore.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jakelowen/firebase-functions-hexastore/issues"
+  },
+  "homepage": "https://github.com/jakelowen/firebase-functions-hexastore#readme",
+  "dependencies": {
+    "firebase": "^3.7.1",
+    "lodash": "^4.17.4"
+  }
+}
